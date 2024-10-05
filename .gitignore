@@ -1,3 +1,9 @@
+# Hej och välkommen till min .gitignore
+# Denna är gjord för C-kod
+
+# Ignore all pdf files
+*.pdf
+
 # Ignores all extensionless files
 *
 !/**/
