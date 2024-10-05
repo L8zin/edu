@@ -2,9 +2,12 @@
 # Denna är gjord för C-kod
 
 # Ignores all extensionless files
-*
+* 
 !/**/
 !*.*
+
+# Ignore Vscode directory
+/.vscode
 
 # Ignore all pdf files
 *.pdf

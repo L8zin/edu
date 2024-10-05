@@ -11,3 +11,4 @@ int main(void)
 	printf("Normal exit\n");
 	return 0;
 }
+
