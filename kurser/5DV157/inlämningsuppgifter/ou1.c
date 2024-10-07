@@ -13,7 +13,6 @@ luej0002@student.umu.se
 int main(void){
 	float rate = 1;
 	int i;
-	bool isDone = false;
 	float latestPrice = 0;
 	float sum = 0;
 	printf("Your shopping assistant\n");
@@ -45,7 +44,6 @@ int main(void){
 					
 			case 3:
 				printf("\nEnd of program!\n");
-				isDone = true;
 				break;
 
 			default: 
@@ -54,5 +52,5 @@ int main(void){
 		}
 
 
-	} while(!isDone);
+	} while(i !=3);
 }
