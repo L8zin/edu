@@ -5,8 +5,8 @@ Umeå Universitet
 TFY24LEN
 luej0002@student.umu.se
 
-Inlämningsuppgift 1, Shopping assistant
- */
+Inlämningsuppgift 1, Shopping assistant 
+*/
 
 // Inkludera header filen för standard input output
 #include <stdio.h>
@@ -17,8 +17,10 @@ int main(void){
 	float rate = 1; 
 	// Index: Används för val i menyn.
 	int i; 
-	float latestPrice = 0; // Senaste inmatade priset.
-	float sum = 0; // Summan av alla inmatade priser.
+	// Senaste inmatade priset.
+	float latestPrice; 
+	// Summan av alla inmatade priser.
+	float sum; 
 
 	printf("Your shopping assistant\n");
 
@@ -29,32 +31,44 @@ int main(void){
 		scanf("%d",&i);
 
 		switch (i){
-			case 1: // Menyval 1: Frågar användare efter exchange rate och lagrar i variablen 'rate'.
+
+			// Menyval 1: Frågar användare efter exchange rate och lagrar i variablen 'rate'.
+			case 1: 
+
 				printf("\nEnter exchange rate: ");
 				scanf("%f",&rate);
 				break;
 
-			case 2: // Menyval 2
-				// Följande variabler deklareras här och tilldelas noll så att de återställs varje gång meynval 2 väljs.
-				latestPrice = 0; // Senaste inmatade priset.
-				sum = 0; // Summan av alla inmatade priser.
+			// Menyval 2: Addera priser och mata ut i SEK.
+			case 2: 
+
+				// Tilldelas noll så att de återställs varje gång meynval 2 väljs.
+				latestPrice = 0; 
+				sum = 0;
+				
+				// Behövs för att ge en ny rad efter menyn, men inte i varje loop.
 				printf("\n");
+
 				// Lägger ihop alla priser som användaren matar in i variabeln 'sum'.
 				do {
-					printf("Enter price (finish with < 0): ");
 					sum += latestPrice;
+
+					printf("Enter price (finish with < 0): ");
 					scanf("%f",&latestPrice);
+
 				} while (latestPrice >= 0);
 
 				//Skriver ut 'sum' och produkten av exchange rate och 'sum'.
 				printf("\nSum in foreign currency: %.2f\n",sum);
 				printf("Sum in SEK: %.2f\n",rate * sum);
 				break;
-				
-			case 3: // Menyval 3: Tomt eftersom programmet bara ska avslutas.
+			
+			// Menyval 3: Tomt eftersom programmet bara ska avslutas.
+			case 3: 
 				break;
 
-			default: // Kommer att köras om menyvalet är ogiltigt. 
+			// Kommer att köras om menyvalet är ogiltigt. 
+			default: 
 				printf("\nNot a valid choice!\n");
 			
 		}
