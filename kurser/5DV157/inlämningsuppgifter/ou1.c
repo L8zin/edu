@@ -13,9 +13,12 @@ Inlämningsuppgift 1, Shopping assistant
 
 // Börja main-funktionen
 int main(void){
-
-	float rate = 1; // Exchange rate: Eftersom exchange rate ska vara 1 i vid programstart så tilldelas den 1 här.
-	int i; // Index: Används för val i menyn.
+	// Exchange rate: Eftersom exchange rate ska vara 1 i vid programstart så tilldelas den 1 här.
+	float rate = 1; 
+	// Index: Används för val i menyn.
+	int i; 
+	float latestPrice = 0; // Senaste inmatade priset.
+	float sum = 0; // Summan av alla inmatade priser.
 
 	printf("Your shopping assistant\n");
 
@@ -33,19 +36,19 @@ int main(void){
 
 			case 2: // Menyval 2
 				// Följande variabler deklareras här och tilldelas noll så att de återställs varje gång meynval 2 väljs.
-				float latestPrice = 0; // Senaste inmatade priset.
-				float sum = 0; // Summan av alla inmatade priser.
-
+				latestPrice = 0; // Senaste inmatade priset.
+				sum = 0; // Summan av alla inmatade priser.
+				printf("\n");
 				// Lägger ihop alla priser som användaren matar in i variabeln 'sum'.
 				do {
-					printf("Enter price (finish with < 0):");
+					printf("Enter price (finish with < 0): ");
 					sum += latestPrice;
 					scanf("%f",&latestPrice);
 				} while (latestPrice >= 0);
 
 				//Skriver ut 'sum' och produkten av exchange rate och 'sum'.
-				printf("\nSum in foreign currency: %f\n",sum);
-				printf("Sum in SEK %f\n",rate * sum);
+				printf("\nSum in foreign currency: %.2f\n",sum);
+				printf("Sum in SEK: %.2f\n",rate * sum);
 				break;
 				
 			case 3: // Menyval 3: Tomt eftersom programmet bara ska avslutas.
