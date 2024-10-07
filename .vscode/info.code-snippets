@@ -1,0 +1,8 @@
+// Infosektion för nya filer. JSON verkar inte stötta multiline strings så det är en väldigt lång rad där.
+// I VSCode kan line wrap sättas på med alt+z
+{
+	"info": {
+		"prefix": "info",
+		"body": "$BLOCK_COMMENT_START \nLukas Ejvinsson\nTeknisk Fysik F24\nUmeå Universitet\nTFY24LEN\nluej0002@student.umu.se\n $BLOCK_COMMENT_END",
+	}
+  }
