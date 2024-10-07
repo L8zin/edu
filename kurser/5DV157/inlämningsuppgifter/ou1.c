@@ -23,11 +23,15 @@ int main(void){
 	float sum; 
 
 	printf("Your shopping assistant\n");
-
+	
+	// Hela programmet körs i en do-while loop så att den kan upprepas.
 	do {
+
+		// Skriv ut meny.
 		printf("\n1. Set exchange rate in SEK (current rate: %.2f)\n2. Read prices in the foreign currency\n3. End\n",rate);
-		
 		printf("\n Enter your choice (1 - 3): ");
+
+		// Vänta på menyval (i) av användaren.
 		scanf("%d",&i);
 
 		switch (i){
