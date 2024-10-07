@@ -6,6 +6,9 @@
 !/**/
 !*.*
 
+#Un-ignore all LICENSE files
+!LICENSE
+
 # Ignore Vscode directory
 /.vscode
 
