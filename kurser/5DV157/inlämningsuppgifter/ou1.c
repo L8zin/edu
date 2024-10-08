@@ -14,13 +14,13 @@ Inlämningsuppgift 1, Shopping assistant
 // Börja main-funktionen
 int main(void){
 	// Exchange rate: Eftersom exchange rate ska vara 1 i vid programstart så tilldelas den 1 här.
-	float rate = 1; 
+	double rate = 1; 
 	// Index: Används för val i menyn.
 	int i; 
 	// Senaste inmatade priset.
-	float latestPrice; 
+	double latestPrice; 
 	// Summan av alla inmatade priser.
-	float sum; 
+	double sum; 
 
 	printf("Your shopping assistant\n");
 	
@@ -40,7 +40,7 @@ int main(void){
 			case 1: 
 
 				printf("\nEnter exchange rate: ");
-				scanf("%f",&rate);
+				scanf("%lf",&rate);
 				break;
 
 			// Menyval 2: Addera priser och mata ut i SEK.
@@ -50,7 +50,7 @@ int main(void){
 				latestPrice = 0; 
 				sum = 0;
 				
-				// Behövs för att ge en ny rad efter menyn, men inte i varje loop.
+				// Behövs för att ge en ny rad efter menyn men inte i varje loop.
 				printf("\n");
 
 				// Lägger ihop alla priser som användaren matar in i variabeln 'sum'.
@@ -58,13 +58,13 @@ int main(void){
 					sum += latestPrice;
 
 					printf("Enter price (finish with < 0): ");
-					scanf("%f",&latestPrice);
+					scanf("%lf",&latestPrice);
 
 				} while (latestPrice >= 0);
 
 				//Skriver ut 'sum' och produkten av exchange rate och 'sum'.
-				printf("\nSum in foreign currency: %.2f\n",sum);
-				printf("Sum in SEK: %.2f\n",rate * sum);
+				printf("\nSum in foreign currency: %.2lf\n",sum);
+				printf("Sum in SEK: %.2lf\n",rate * sum);
 				break;
 			
 			// Menyval 3: Tomt eftersom programmet bara ska avslutas.
@@ -80,7 +80,7 @@ int main(void){
 	// While loopen körs så länge inte menyval 3 väljs, dvs då i = 3.
 	} while(i !=3);
 
-	// Avsluta programmet. Notera dubbla newline-karaktärer. Detta ger en blankrad efter "End of program"
+	// Avslutar programmet. Notera dubbla newline-karaktärer. Detta ger en blankrad efter "End of program"
 	printf("\nEnd of program!\n\n");
 	return 0;
 }
