@@ -56,7 +56,6 @@ int main(void){
 				// Lägger ihop alla priser som användaren matar in i variabeln 'sum'.
 				do {
 					sum += latestPrice;
-
 					printf("Enter price (finish with < 0): ");
 					scanf("%lf",&latestPrice);
 
@@ -78,7 +77,7 @@ int main(void){
 		}
 
 	// While loopen körs så länge inte menyval 3 väljs, dvs då i = 3.
-	} while(i !=3);
+	} while(i != 3);
 
 	// Avslutar programmet. Notera dubbla newline-karaktärer. Detta ger en blankrad efter "End of program"
 	printf("\nEnd of program!\n\n");
