@@ -16,11 +16,11 @@ int main(void){
 	// Exchange rate: Eftersom exchange rate ska vara 1 i vid programstart så tilldelas den 1 här.
 	double rate = 1; 
 	// Index: Används för val i menyn.
-	int i; 
+	int i = 0; 
 	// Senaste inmatade priset.
-	double latestPrice; 
+	double latestPrice = 0; 
 	// Summan av alla inmatade priser.
-	double sum; 
+	double sum = 0; 
 
 	printf("Your shopping assistant\n");
 	
