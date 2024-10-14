@@ -11,6 +11,7 @@ Inlämningsuppgift 2
 #include <stdio.h>
 #include <stdbool.h>
 
+// Function to print the menu.
 bool menu(void) {
 	printf("Program information\n");
 	printf("The program reads in the number of judges and the score from each judge.\n");
@@ -20,12 +21,15 @@ bool menu(void) {
 	return true;
 }
 
+// Function to read integers.
 int readInt(void) {
 	int n;
 	scanf("%d",&n);
 	return n;
 
 }
+
+// Function to read floats.
 double readFloat(void) {
 	double f;
 	scanf("%lf",&f);
@@ -33,15 +37,17 @@ double readFloat(void) {
 
 }
 
-bool numOfJudges(int *n) {
-	printf("Number of judges (min 3 and max 10 judges)? ");
+// Function to read the number of judges and check if it is within the allowed range.
+bool numOfJudges(int *n, int min, int max) {
+	printf("Number of judges (min %d and max %d judges)? ", min, max);
 	*n = readInt();
-	if (*n >= 3 && *n <= 10) {
+	if (*n >= min && *n <= max) {
 		return true;
 	} else {
 		return false;
 	}
 }
+
 
 bool judgeScore(double arr[], int i) {
 	printf("Score from judge %d? ", i+1);
@@ -101,7 +107,7 @@ int main(void) {
 
 	menu();
 
-	while(!numOfJudges(&judges));
+	while(!numOfJudges(&judges,3,10));
 
 	double judgeScores[10];
 	printf("\n");
