@@ -48,18 +48,20 @@ bool numOfJudges(int *n, int min, int max) {
 	}
 }
 
-
+// Reads a judge score. Use in for loop in main.
 bool judgeScore(double arr[], int i) {
 	printf("Score from judge %d? ", i+1);
 	arr[i] = readFloat();
 	return true;
 }
 
+// Prints the loaded judge scores. Use in for loop in main.
 bool printLoadedScore(double arr[], int i) {
 	printf("Judge %d: %.1lf\n", i+1, arr[i]);
 	return true;
 }
 
+// Returns the largest value in an array. Also returns the index of the largest number.
 double maxFloat(double arr[],int size, int *p) {
 	double max = arr[0];
 	*p = 0;
@@ -73,6 +75,7 @@ double maxFloat(double arr[],int size, int *p) {
 	return max;
 }
 
+// Returns the smallest value in an array. Also returns the index of the smallest number.
 double minFloat(double arr[],int size, int *p) {
 	double min = arr[0];
 	*p = 0;
@@ -85,45 +88,45 @@ double minFloat(double arr[],int size, int *p) {
 	return min;
 }
 
+// Returns the average value of an array minus the smallest and largest values.
 double averageFloat(double arr[], int size, int min, int max) {
-	double average;
+	double average = 0;
 	double sum = 0;
-	// printf("min is [%d]", min);
-	// printf("max is arr[%d]",max);
-	for (int i = 0; i < size; i++) {
+	int i = 0;
+	for (i = 0; i < size; i++) {
 		if (i != min && i != max) {
 			sum += arr[i];
 		}
 	}
-	average = sum/(size-2);
-	// printf("sum is %lf",sum);
+	average = sum/(i);
 	return average;
 }
 
 
 int main(void) {
 
+	// Number of judges.
 	int judges;
 
 	menu();
 
 	while(!numOfJudges(&judges,3,10));
 
-	double judgeScores[10];
+	double judge_scores[10];
 	printf("\n");
 
-	for (int i = 0; i < judges; judgeScore(judgeScores,i), i++);
+	for (int i = 0; i < judges; judgeScore(judge_scores,i), i++);
 
 	printf("\nLoaded scores:\n");
 	
-	for (int i = 0; i < judges; printLoadedScore(judgeScores,i), i++);
+	for (int i = 0; i < judges; printLoadedScore(judge_scores,i), i++);
 
 	int min; 
 	int max;
 	printf("\nFinal result:\n");
-	printf("Highest judge score: %.1lf\n", maxFloat(judgeScores,judges, &max));
-	printf("Lowest judge score: %.1lf\n",minFloat(judgeScores,judges, &min));
-	printf("Final average score: %.1lf\n",averageFloat(judgeScores,judges, min, max));
+	printf("Highest judge score: %.1lf\n", maxFloat(judge_scores,judges, &max));
+	printf("Lowest judge score: %.1lf\n",minFloat(judge_scores,judges, &min));
+	printf("Final average score: %.1lf\n",averageFloat(judge_scores,judges, min, max));
 
 
 	return 0;
