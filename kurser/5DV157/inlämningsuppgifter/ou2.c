@@ -1,27 +1,46 @@
 /* 
-Lukas Ejvinsson
-Teknisk Fysik F24
-Umeå Universitet
-TFY24LEN
-luej0002@student.umu.se
+Name: Lukas Ejvinsson
+CS Username: TFY24LEN
+Email: luej0002@student.umu.se
+Date: 2024-10-15
+Program Version: 1.0
 
-Inlämningsuppgift 2
+Program Description:
+
+Takes in scores from a variable amount of judges, finds the lowest
+and highest scores, and then computes the average excluding those two scores.
+
+For example, if 4 judges score the follwing:
+{1, 3, 4, 3}
+Then this code would compute the following:
+Lowest judge score: 1
+Highest judge score: 4
+Final average score (will exclude 1 and 4): 6/2 = 3
+
+Program accepts scores as floating point numbers.
  */
 
 #include <stdio.h>
 #include <stdbool.h>
 
-// Function to print the menu.
-bool menu(void) {
+
+// Defines the size of the array as well as the allowed amount of judges
+#define MAX_NUM_OF_JUDGES 10
+#define MIN_NUM_OF_JUDGES 3
+
+//Sets how many decimals to output.
+#define OUTPUT_PRECISION 1
+
+// Prints the program info.
+void programInfo(void) {
 	printf("Program information\n");
 	printf("The program reads in the number of judges and the score from each judge.\n");
 	printf("Then it calculates the average score without regard to the lowest and\n");
 	printf("highest judge score. Finally it prints the results (the highest, the\n");
 	printf("lowest and the final average score).\n\n");
-	return true;
 }
 
-// Function to read integers.
+// Reads an integer from user.
 int readInt(void) {
 	int n;
 	scanf("%d",&n);
@@ -29,7 +48,7 @@ int readInt(void) {
 
 }
 
-// Function to read floats.
+// Reads a float point number from user.
 double readFloat(void) {
 	double f;
 	scanf("%lf",&f);
@@ -37,97 +56,90 @@ double readFloat(void) {
 
 }
 
-// Function to read the number of judges and check if it is within the allowed range.
-bool numOfJudges(int *n, int min, int max) {
-	printf("Number of judges (min %d and max %d judges)? ", min, max);
-	*n = readInt();
-	if (*n >= min && *n <= max) {
-		return true;
-	} else {
-		return false;
+// Clears a double array.
+void clearDoubleArray(double v[], int array_size) {
+	for (int i = 0; i < array_size; i++) {
+		v[i] = 0;
 	}
 }
 
-// Reads a judge score. Use in for loop in main.
-bool judgeScore(double arr[], int i) {
-	printf("Score from judge %d? ", i+1);
-	arr[i] = readFloat();
-	return true;
+// Reads the number of judges from user and checks if it is within the allowed range.
+int numOfJudges(void) {
+	int n = 0;
+	do {
+		printf("Number of judges (min %d and max %d judges)? ", MIN_NUM_OF_JUDGES, MAX_NUM_OF_JUDGES);
+		n = readInt();
+	} while (n < MIN_NUM_OF_JUDGES || n > MAX_NUM_OF_JUDGES);
+	return n;
+}
+	
+// Reads judge scores into an array.
+void readJudgeScores(double scores[], int num_of_judges) {
+	for(int i = 0; i < num_of_judges; i++) {
+		printf("Score from judge %d? ", i+1);
+		scores[i] = readFloat();
+	}
 }
 
-// Prints the loaded judge scores. Use in for loop in main.
-bool printLoadedScore(double arr[], int i) {
-	printf("Judge %d: %.1lf\n", i+1, arr[i]);
-	return true;
+// Prints judge scores from an array.
+void printLoadedScores(double scores[], int num_of_judges) {
+	printf("Loaded scores:\n");
+	for (int i = 0; i < num_of_judges; i++) {
+	printf("Judge %d: %.1lf\n", i+1, scores[i]);
+	}
 }
 
-// Returns the largest value in an array. Also returns the index of the largest number.
-double maxFloat(double arr[],int size, int *p) {
-	double max = arr[0];
-	*p = 0;
-	for (int i = 0; i < size; i++) {
-		if (arr[i] > max) {
-			max = arr[i];
-			*p = i;
+// Finds the smallest and largest values in an array and then computes the
+// arithmetic mean excluding those values.
+// Outputs the min, max, and average through pointer arguments.
+void minMaxAverage(double v[], int array_size, double *min, double *max, double *average) {
+	*min = v[0];
+	*max = v[0];
+	double sum = v[0];
+
+	for (int i = 1; i < array_size; i++) {
+		
+		if (v[i] < *min) {
+		*min = v[i];
+		} else if (v[i] > *max) {
+		*max = v[i];
 		}
-			
+		
+		sum += v[i];
 	}
-	return max;
+	*average = (sum - (*max + *min))/(array_size-2);
+	
 }
 
-// Returns the smallest value in an array. Also returns the index of the smallest number.
-double minFloat(double arr[],int size, int *p) {
-	double min = arr[0];
-	*p = 0;
-	for (int i = 0; i < size; i++) {
-		if (arr[i] < min) {
-			min = arr[i];
-			*p = i;
-		}
-	}
-	return min;
+// Prints the score summary.
+void printSummary(double min, double max, double average) {
+	printf("Final result:\n");
+	printf("Highest judge score: %.*lf\n", OUTPUT_PRECISION, max);
+	printf("Lowest judge score: %.*lf\n", OUTPUT_PRECISION, min);
+	printf("Final average score: %.*lf\n", OUTPUT_PRECISION, average);
 }
-
-// Returns the average value of an array minus the smallest and largest values.
-double averageFloat(double arr[], int size, int min, int max) {
-	double average = 0;
-	double sum = 0;
-	int i = 0;
-	for (i = 0; i < size; i++) {
-		if (i != min && i != max) {
-			sum += arr[i];
-		}
-	}
-	average = sum/(i);
-	return average;
-}
-
 
 int main(void) {
 
-	// Number of judges.
-	int judges;
+	double scores[MAX_NUM_OF_JUDGES];
+	int num_of_judges = 0;
+	double min, max, average = 0;
 
-	menu();
+	// Initialize the array.
+	clearDoubleArray(scores, sizeof(scores)/sizeof(scores[0]));
 
-	while(!numOfJudges(&judges,3,10));
-
-	double judge_scores[10];
+	programInfo();
+	num_of_judges = numOfJudges();
 	printf("\n");
 
-	for (int i = 0; i < judges; judgeScore(judge_scores,i), i++);
+	readJudgeScores(scores,num_of_judges);
+	printf("\n");
+	printLoadedScores(scores,num_of_judges);
 
-	printf("\nLoaded scores:\n");
-	
-	for (int i = 0; i < judges; printLoadedScore(judge_scores,i), i++);
+	minMaxAverage(scores,num_of_judges,&min,&max,&average);
+	printf("\n");
+	printSummary(min,max,average);
 
-	int min; 
-	int max;
-	printf("\nFinal result:\n");
-	printf("Highest judge score: %.1lf\n", maxFloat(judge_scores,judges, &max));
-	printf("Lowest judge score: %.1lf\n",minFloat(judge_scores,judges, &min));
-	printf("Final average score: %.1lf\n",averageFloat(judge_scores,judges, min, max));
-
-
+	printf("Normal exit.\n");
 	return 0;
 }
