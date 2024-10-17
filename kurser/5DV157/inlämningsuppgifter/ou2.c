@@ -110,6 +110,7 @@ void minMaxAverage(double v[], int array_size, double *min, double *max, double 
 		sum += v[i];
 	}
 	// Compute average excluding the min and max.
+	printf("\n%lf\n",sum);
 	*average = (sum - (*max + *min))/(array_size-2);
 	
 }
