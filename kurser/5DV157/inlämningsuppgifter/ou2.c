@@ -12,9 +12,9 @@
  * Final average score (will exclude 1 and 4): 6/2 = 3
  *
  * Program accepts scores as floating point numbers.
- * 
- * @param MIN_NUM_OF_JUDGES The minimum allowed number of judges to be entered by user.
- * @param MAX_NUM_OF_JUDGES The maximum allowed number of judges to be entered by user.
+ * @subsection cmdline Command-line arguments:
+ * - @b[1] The minimum allowed number of judges to be entered by user.
+ * - @b[2]The maximum allowed number of judges to be entered by user.
  * 
  * @version 2.0
  * @date 2024-10-21
@@ -154,6 +154,14 @@ void printSummary(double min, double max, double average) {
 	printf("Final average score: %.*lf\n", OUTPUT_PRECISION, average);
 }
 
+/**
+ * @brief Reads the allowed range of judges and performs the algoritms.
+ * 
+ * @param argc Is used to determine if amount of input parameters are correct.
+ * @param argv[1] @p MIN_NUM_OF_JUDGES. 
+ * @param argv[2] @p MAX_NUM_OF_JUDGES
+ * @return Exit code.
+ */
 int main(int argc, char * argv[]) {
 
 	int MIN_NUM_OF_JUDGES;
