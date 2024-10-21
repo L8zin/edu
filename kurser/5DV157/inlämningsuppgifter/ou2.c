@@ -23,12 +23,7 @@ Program accepts scores as floating point numbers.
 #include <stdio.h>
 #include <stdbool.h>
 #include <stdlib.h>
-
-
-// Define the size of the array as well as the allowed amount of judges.
-// There must be a minimum of 3 judges to avoid division by zero.
-#define MAX_NUM_OF_JUDGES 10
-#define MIN_NUM_OF_JUDGES 3
+#include <string.h>
 
 //Set how many decimals to output.
 #define OUTPUT_PRECISION 1
@@ -58,20 +53,14 @@ double readFloat(void) {
 
 }
 
-// Clear a double array.
-void clearDoubleArray(double v[], int array_size) {
-	for (int i = 0; i < array_size; i++) {
-		v[i] = 0;
-	}
-}
 
 // Read the number of judges from user and checks if it is within the allowed range.
-int numOfJudges(void) {
+int numOfJudges(int min, int max) {
 	int n = 0;
 	do {
-		printf("Number of judges (min %d and max %d judges)? ", MIN_NUM_OF_JUDGES, MAX_NUM_OF_JUDGES);
+		printf("Number of judges (min %d and max %d judges)? ", min, max);
 		n = readInt();
-	} while (n < MIN_NUM_OF_JUDGES || n > MAX_NUM_OF_JUDGES);
+	} while (n < min || n > max);
 	return n;
 }
 	
@@ -110,8 +99,7 @@ void minMaxAverage(double v[], int array_size, double *min, double *max, double 
 		sum += v[i];
 	}
 	// Compute average excluding the min and max.
-	printf("\n%lf\n",sum);
-	*average = (sum - (*max + *min))/(array_size-2);
+	*average = (sum - (*max + *min))/(array_size - 2);
 	
 }
 
@@ -123,7 +111,20 @@ void printSummary(double min, double max, double average) {
 	printf("Final average score: %.*lf\n", OUTPUT_PRECISION, average);
 }
 
-int main(void) {
+int main(int argc, char * argv[]) {
+
+	int MIN_NUM_OF_JUDGES;
+	int MAX_NUM_OF_JUDGES;
+
+	if (argc == 3) {
+		MIN_NUM_OF_JUDGES = atoi(argv[1]);
+		MAX_NUM_OF_JUDGES = atoi(argv[2]);
+	} else {
+		MIN_NUM_OF_JUDGES = 3;
+		MAX_NUM_OF_JUDGES = 10;
+	}
+
+	
 
 	// Check to avoid divide by zero error. If found, exit the program.
 	if (MIN_NUM_OF_JUDGES < 3) {
@@ -131,16 +132,16 @@ int main(void) {
 		return EXIT_FAILURE;
 	}
 
+
 	// Declare all main function variables
 	double scores[MAX_NUM_OF_JUDGES];
 	int num_of_judges = 0;
 	double min, max, average = 0;
 
-	// Initialize the array.
-	clearDoubleArray(scores, MAX_NUM_OF_JUDGES);
+	memset(scores,0,MAX_NUM_OF_JUDGES);
 
 	programInfo();
-	num_of_judges = numOfJudges();
+	num_of_judges = numOfJudges(MIN_NUM_OF_JUDGES, MAX_NUM_OF_JUDGES);
 	printf("\n");
 
 	readJudgeScores(scores,num_of_judges);

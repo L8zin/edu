@@ -2,25 +2,31 @@
 Lukas Ejvinsson
 Teknisk Fysik F24
 Umeå Universitet
-TFY24LEN
-luej0002@student.umu.se
+CS-användarnamn: tfy24len
+epost: luej0002@student.umu.se
 
-Inlämningsuppgift 1, Shopping assistant 
+Inlämningsuppgift 1, Shopping assistant:
+Ett program som räknar ihop priser i utländsk valuta
+och konverterar till SEK.
 */
 
-// Inkludera header filen för standard input output
+// Inkludera header filen för standard input output.
 #include <stdio.h>
 
-// Börja main-funktionen
+// Börja main-funktionen.
 int main(void){
-	// Exchange rate: Eftersom exchange rate ska vara 1 i vid programstart så tilldelas den 1 här.
+
+	// Växlingskurs. Ska vara 1 vid programstart.
 	double rate = 1; 
-	// Index: Används för val i menyn.
-	int i = 0; 
+
+	// För val i menyn.
+	int choice = 0; 
+
 	// Senaste inmatade priset.
-	double latestPrice = 0; 
+	double latestInput; 
+
 	// Summan av alla inmatade priser.
-	double sum = 0; 
+	double sum; 
 
 	printf("Your shopping assistant\n");
 	
@@ -28,38 +34,38 @@ int main(void){
 	do {
 
 		// Skriv ut meny.
-		printf("\n1. Set exchange rate in SEK (current rate: %.2f)\n2. Read prices in the foreign currency\n3. End\n",rate);
+		printf("\n1. Set exchange rate in SEK (current rate: %.2f)\n",rate);
+		printf("2. Read prices in the foreign currency\n");
+		printf("3. End\n");
 		printf("\n Enter your choice (1 - 3): ");
 
-		// Vänta på menyval (i) av användaren.
-		scanf("%d",&i);
+		// Vänta på menyval (choice) av användaren.
+		scanf("%d",&choice);
+		printf("\n");
 
-		switch (i){
+		switch (choice){
 
-			// Menyval 1: Frågar användare efter exchange rate och lagrar i variablen 'rate'.
+			// Menyval 1: Ändra växlingskurs
 			case 1: 
 
-				printf("\nEnter exchange rate: ");
+				printf("Enter exchange rate: ");
 				scanf("%lf",&rate);
 				break;
 
 			// Menyval 2: Addera priser och mata ut i SEK.
 			case 2: 
 
-				// Tilldelas noll så att de återställs varje gång meynval 2 väljs.
-				latestPrice = 0; 
+				// Återställ variabler.
+				latestInput = 0; 
 				sum = 0;
-				
-				// Behövs för att ge en ny rad efter menyn men inte i varje loop.
-				printf("\n");
 
-				// Lägger ihop alla priser som användaren matar in i variabeln 'sum'.
+				// Lägger ihop alla priser som matas in.
 				do {
-					sum += latestPrice;
+					sum += latestInput;
 					printf("Enter price (finish with < 0): ");
-					scanf("%lf",&latestPrice);
+					scanf("%lf",&latestInput);
 
-				} while (latestPrice >= 0);
+				} while (latestInput >= 0);
 
 				//Skriver ut 'sum' och produkten av exchange rate och 'sum'.
 				printf("\nSum in foreign currency: %.2lf\n",sum);
@@ -68,18 +74,20 @@ int main(void){
 			
 			// Menyval 3: Tomt eftersom programmet bara ska avslutas.
 			case 3: 
+
 				break;
 
 			// Kommer att köras om menyvalet är ogiltigt. 
 			default: 
-				printf("\nNot a valid choice!\n");
+
+				printf("Not a valid choice!\n");
 			
 		}
 
 	// While loopen körs så länge inte menyval 3 väljs, dvs då i = 3.
-	} while(i != 3);
+	} while(choice != 3);
 
-	// Avslutar programmet. Notera dubbla newline-karaktärer. Detta ger en blankrad efter "End of program"
-	printf("\nEnd of program!\n\n");
+	// Avsluta programmet. '\n\n' ger en blankrad efter.
+	printf("End of program!\n\n");
 	return 0;
 }
