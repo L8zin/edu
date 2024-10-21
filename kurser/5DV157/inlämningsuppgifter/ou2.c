@@ -1,23 +1,24 @@
-/* 
-Name: Lukas Ejvinsson
-CS Username: TFY24LEN
-Email: luej0002@student.umu.se
-Date: 2024-10-15
-Program Version: 1.1
-
-Program Description:
-
-Takes in scores from a variable amount of judges, finds the lowest
-and highest scores, and then computes the average excluding those two scores.
-
-For example, if 4 judges score the follwing:
-{1, 3, 4, 3}
-Then this code would compute the following:
-Lowest judge score: 1
-Highest judge score: 4
-Final average score (will exclude 1 and 4): 6/2 = 3
-
-Program accepts scores as floating point numbers.
+/**
+ * @file ou2.c
+ * @author Lukas Ejvinsson (luej0002@)
+ * @brief Takes in scores from a variable amount of judges, finds the lowest
+ * and highest scores, and then computes the average excluding those two scores.
+ *
+ * For example, if 4 judges score the following:
+ * {1, 3, 4, 3}\n
+ * Then this code would compute the following:\n
+ * Lowest judge score: 1\n
+ * Highest judge score: 4\n
+ * Final average score (will exclude 1 and 4): 6/2 = 3
+ *
+ * Program accepts scores as floating point numbers.
+ * 
+ * @param MIN_NUM_OF_JUDGES The minimum allowed number of judges to be entered by user.
+ * @param MAX_NUM_OF_JUDGES The maximum allowed number of judges to be entered by user.
+ * 
+ * @version 2.0
+ * @date 2024-10-21
+ * 
  */
 
 #include <stdio.h>
@@ -25,10 +26,16 @@ Program accepts scores as floating point numbers.
 #include <stdlib.h>
 #include <string.h>
 
-//Set how many decimals to output.
+/**
+ * @brief Sets precision of output values.
+ * 
+ */
 #define OUTPUT_PRECISION 1
 
-// Print the program info.
+/**
+ * @brief Prints the program information.
+ * 
+ */
 void programInfo(void) {
 	printf("Program information\n");
 	printf("The program reads in the number of judges and the score from each judge.\n");
@@ -37,7 +44,11 @@ void programInfo(void) {
 	printf("lowest and the final average score).\n\n");
 }
 
-// Read an integer from user.
+/**
+ * @brief Reads an integer using scanf.
+ * 
+ * @return Int from user.
+ */
 int readInt(void) {
 	int n = 0;
 	scanf("%d",&n);
@@ -45,7 +56,11 @@ int readInt(void) {
 
 }
 
-// Read a float point number from user.
+/**
+ * @brief Reads a float using scanf.
+ * 
+ * @return Double from user.
+ */
 double readFloat(void) {
 	double f = 0;
 	scanf("%lf",&f);
@@ -53,8 +68,13 @@ double readFloat(void) {
 
 }
 
-
-// Read the number of judges from user and checks if it is within the allowed range.
+/**
+ * @brief Read the number of judges from user using @ref readInt() and checks if it is within the allowed range.
+ * 
+ * @param[in] min Min allowed number of judges.
+ * @param[in] max Max allowed number of judges.
+ * @return The number of judges entered by user.
+ */
 int numOfJudges(int min, int max) {
 	int n = 0;
 	do {
@@ -64,26 +84,43 @@ int numOfJudges(int min, int max) {
 	return n;
 }
 	
-// Read judge scores into an array.
-void readJudgeScores(double scores[], int num_of_judges) {
+/**
+ * @brief Reads judge scores into an array using @ref readFloat().
+ * 
+ * @param[out] scores Destination array for scores.
+ * @param[in] num_of_judges Number of judges.
+ */
+void readJudgeScores(double scores[], const int num_of_judges) {
 	for(int i = 0; i < num_of_judges; i++) {
 		printf("Score from judge %d? ", i+1);
 		scores[i] = readFloat();
 	}
 }
 
-// Print judge scores from an array.
-void printLoadedScores(double scores[], int num_of_judges) {
+/**
+ * @brief Prints loaded scores from array.
+ * 
+ * @param[in] scores array of scores to print.
+ * @param[in] num_of_judges Number of judges.
+ */
+void printLoadedScores(const double scores[], const int num_of_judges) {
 	printf("Loaded scores:\n");
 	for (int i = 0; i < num_of_judges; i++) {
 		printf("Judge %d: %.1lf\n", i+1, scores[i]);
 	}
 }
 
-// Find the smallest and largest values in an array and then compute the
-// arithmetic mean excluding those values.
-// Output the min, max, and average through pointer arguments.
-void minMaxAverage(double v[], int array_size, double *min, double *max, double *average) {
+/**
+ * @brief Takes an array and finds the smallest value, the largest value,
+ *  and the average excluding the largest and smallest values.
+ * 
+ * @param[in] v Input array.
+ * @param[in] array_size Size of the input array.
+ * @param[out] min The smallest value in the array.
+ * @param[out] max The largest value in the array.
+ * @param[out] average The average value of the array excluding @p min and @p max.
+ */
+void minMaxAverage(const double v[], const int array_size, double *min, double *max, double *average) {
 	*min = v[0];
 	*max = v[0];
 	double sum = v[0];
@@ -103,7 +140,13 @@ void minMaxAverage(double v[], int array_size, double *min, double *max, double 
 	
 }
 
-// Print the score summary.
+/**
+ * @brief Prints the scores summary.
+ * 
+ * @param[in] min The lowest judge score.
+ * @param[in] max The highest judge score.
+ * @param[in] average The average judge score excluding @p min and @p max.
+ */
 void printSummary(double min, double max, double average) {
 	printf("Final result:\n");
 	printf("Highest judge score: %.*lf\n", OUTPUT_PRECISION, max);
@@ -128,7 +171,7 @@ int main(int argc, char * argv[]) {
 
 	// Check to avoid divide by zero error. If found, exit the program.
 	if (MIN_NUM_OF_JUDGES < 3) {
-		printf("Program might result in division by zero, adjust MIN_NUM_OF_JUDGES to be >=3\n");
+		printf("Internt konfigurationsfel: MIN_NUM_OF_JUDGES < 3.\n");
 		return EXIT_FAILURE;
 	}
 
@@ -138,7 +181,8 @@ int main(int argc, char * argv[]) {
 	int num_of_judges = 0;
 	double min, max, average = 0;
 
-	memset(scores,0,MAX_NUM_OF_JUDGES);
+	// Set array to all zeroes
+	memset(scores,0,sizeof(scores));
 
 	programInfo();
 	num_of_judges = numOfJudges(MIN_NUM_OF_JUDGES, MAX_NUM_OF_JUDGES);
