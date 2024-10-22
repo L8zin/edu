@@ -1,6 +1,7 @@
 /**
  * @file ou2.c
- * @author Lukas Ejvinsson (luej0002@student.umu.se)
+ * @author Lukas Ejvinsson (luej0002@student.umu.se)\n
+ * CS-Username: Tfy24len
  * @brief Takes in scores from a variable amount of judges, finds the lowest
  * and highest scores, and then computes the average excluding those two scores.
  *
