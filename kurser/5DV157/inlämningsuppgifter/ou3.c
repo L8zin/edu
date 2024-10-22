@@ -12,8 +12,8 @@
 
 #define BUFLEN 1024
 
-#define ROWS 40
-#define COLS 40
+#define ROWS 20
+#define COLS 20
 
 #define loopthrough(rows,both) for(int r = 0; r < ROWS; r++){for (int c = 0; c < COLS; c++){both}rows}
 
@@ -108,7 +108,8 @@ void load_semaphore(const int rows, const int cols, cell world[rows][cols])
  */
 void load_random_state(const int rows, const int cols, cell world[rows][cols])
 {
-
+	loopthrough(,world[r][c].current = (rand()%2) ? ALIVE : DEAD;)
+	
 }
 
 /* Function:    load_custom_state
@@ -183,7 +184,7 @@ void init_world(const int rows, const int cols, cell world[rows][cols])
 
 int get_neighbours(int row, int col, int rows, int cols, cell world[rows][cols]) {
 	int neighbours = 0;
-	for (int r = max(0,row-1); r <= min(rows-1,row+1) ; r++) {
+	for (int r = max(0,row-1); r <= min(rows-1,row+1); r++) {
 		for (int c = max(0,col-1); c <= min(cols-1,col+1); c++) {
 			if (world[r][c].current == ALIVE && !(r == row && c == col)) {
 				neighbours++;
@@ -211,20 +212,19 @@ void load_next_frame(const int rows, const int cols, cell world[rows][cols]) {
 
 void print_frame(int rows, int cols, cell world[rows][cols]) {
 	loopthrough(printf("\n");,printf("%c ", world[r][c].current);)
-	printf("\n");
 }
 
 char menu(void) {
-	char ch = 0;
-	printf("[1] Next step\n");
-	printf("[2] End\n");
-	printf("\nPress enter or 1 to proceed with the next step or press 2 to exit\n");
-	ch = getchar();
+	printf("Select one of the following options:\n");
+	printf("(enter) Step\n");
+	printf("(any) Exit\n");
+
+	char ch = getchar();
 	return ch;
-
-
-
+	
 }
+
+
 
 /* Function:    main
  * Description: Start and run simulations, interact with the user.
@@ -235,24 +235,22 @@ char menu(void) {
  * Output:      Zero for normal exit, non-zero for error.
  */
 int main(void) {   
-    
+	srand(time(NULL));
+
     cell world[ROWS][COLS];
+	const int rows = ROWS;
+	const int cols = COLS;
 
-	clear_world(ROWS,COLS,world);
+	clear_world(rows,cols,world);
 
-    init_world(ROWS,COLS,world);
-	
+    init_world(rows,cols,world);
 
-	while (true) {
-		char ch = 0;
+	char ch = 0;
+	do {
+		//system("clear");
+		print_frame(rows,cols,world);
 		ch = menu();
-		printf("test");
-		if (ch == 10 || ch == 49) {
 		
-		} else if (ch == 50) {
-			return 0;
-		} else {
-			printf("Enter a valid choice!\n");
-		}
-	}
-}
+		load_next_frame(rows,cols,world);
+	} while (ch == 10);
+} 
