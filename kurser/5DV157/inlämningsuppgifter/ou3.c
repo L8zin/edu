@@ -1,5 +1,14 @@
-/*
-*/
+/**
+ * @file ou3.c
+ * @author Lukas Ejvinsson (luej0002@student.umu.se)
+ * @brief
+ * A simple implementation of Conway's Game of Life. Lets the user
+ * choose initial configuration. Then let them step or exit.
+ * Prints the game field in each step.
+ * @version 1.0
+ * @date 2024-10-22
+ * 
+ */
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -12,23 +21,51 @@
 
 #define BUFLEN 1024
 
-#define ROWS 100
-#define COLS 100
+#define ROWS 20
+#define COLS 20
 
 #define loopthrough(rows,both) for(int r = 0; r < ROWS; r++){for (int c = 0; c < COLS; c++){both}rows}
 
-/* Declaration of data structure */
+/**
+ * @struct cell
+ * @brief Structure that contains the state of a cell in the current frame and in the next frame.
+ * 
+ * @var char cell::current
+ * @brief Current state
+ * 
+ * @var char cell::next
+ * @brief Next state
+ * 
+ */
 typedef struct cell {
 	char current;
 	char next;
 } cell;
 
-int min(int a, int b) {
-    return (a < b) ? a : b;
+/**
+ * @brief Returns the smaller of two integers.
+ * @param[in] a Integer 1.
+ * @param[in] b Integer 2.
+ * @return Integer smallest of @p a and @p b.
+ */
+int min(const int a, const int b) {
+	if(a < b) {
+		return a;
+	} else return b;
 }
-
-int max(int a, int b) {
-    return (a > b) ? a : b;
+/**
+ * @brief Returns the larger of two integers.
+ * 
+ * @param a Integer 1.
+ * @param b Integer 2.
+ * @return Integer largest of @p a and @p b.
+ */
+int max(const int a, const int b) {
+    if(a > b) {
+		return a;
+	} else {
+		return b;
+	}
 }
 
 /* Function:    get_start_state
@@ -182,6 +219,16 @@ void init_world(const int rows, const int cols, cell world[rows][cols])
 	}
 }
 
+/**
+ * @brief Gets the number of neighbours to a given cell.
+ * 
+ * @param[in] row What row the cell is on.
+ * @param[in] col What column the cell is on.
+ * @param[in] rows Total number of rows.
+ * @param[in] cols Total number of columns.
+ * @param[in] world Array with cells.
+ * @return Number of neighbours to cell world[row][col].
+ */
 int get_neighbours(int row, int col, int rows, int cols, cell world[rows][cols]) {
 	int neighbours = 0;
 	for (int r = max(0,row-1); r <= min(rows-1,row+1); r++) {
@@ -194,6 +241,15 @@ int get_neighbours(int row, int col, int rows, int cols, cell world[rows][cols])
 	return neighbours;
 }
 
+/**
+ * @brief Sets the next state for a cell. Will call @ref get_neighbours to determine next state.
+ * 
+ * @param[in] row What row the cell is on.
+ * @param[in] col What column the cell is on.
+ * @param[in] rows Total number of rows.
+ * @param[in] cols Total number of columns.
+ * @param[in] world Array with cells.
+ */
 void set_next_state(int row, int col, int rows, int cols, cell world[rows][cols]) {
 	char *next = &world[row][col].next;
 	bool is_alive = world[row][col].current == ALIVE;
@@ -205,15 +261,35 @@ void set_next_state(int row, int col, int rows, int cols, cell world[rows][cols]
 	}
 }
 
+/**
+ * @brief Loads the next frame. I.e. calls @ref set_next_state for every cell in the @p world array.
+ * Then writes the results to the current frame buffer.
+ * 
+ * @param[in] rows Total number of rows.
+ * @param[in] cols Total number of columns.
+ * @param[in, out] world Array with cells. 
+ */
 void load_next_frame(const int rows, const int cols, cell world[rows][cols]) {
 	loopthrough(,set_next_state(r,c,rows,cols,world);)
 	loopthrough(,world[r][c].current = world[r][c].next;)
 }
 
+/**
+ * @brief Prints the current frame stored in @p world[][].current
+ * 
+ * @param[in] rows Total number of rows.
+ * @param[in] cols Total number of columns.
+ * @param[in] world Array with cells. 
+ */
 void print_frame(int rows, int cols, cell world[rows][cols]) {
 	loopthrough(printf("\n");,printf("%c ", world[r][c].current);)
 }
 
+/**
+ * @brief Prints the menu and returns the character the user types.
+ * 
+ * @return char from user.
+ */
 char menu(void) {
 	printf("Select one of the following options:\n");
 	printf("(enter) Step\n");
@@ -247,9 +323,13 @@ int main(void) {
 
 	char ch = 0;
 	do {
-		system("clear");
+		// I REALLY want to use this:
+		// system("clear"); 
 		print_frame(rows,cols,world);
 		ch = menu();
 		load_next_frame(rows,cols,world);
 	} while (ch == 10);
+
+	printf("Normal exit.\n");
+	return EXIT_SUCCESS;
 } 
