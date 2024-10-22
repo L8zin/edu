@@ -12,8 +12,8 @@
 
 #define BUFLEN 1024
 
-#define ROWS 20
-#define COLS 20
+#define ROWS 100
+#define COLS 100
 
 #define loopthrough(rows,both) for(int r = 0; r < ROWS; r++){for (int c = 0; c < COLS; c++){both}rows}
 
@@ -247,10 +247,9 @@ int main(void) {
 
 	char ch = 0;
 	do {
-		//system("clear");
+		system("clear");
 		print_frame(rows,cols,world);
 		ch = menu();
-		
 		load_next_frame(rows,cols,world);
 	} while (ch == 10);
 } 
