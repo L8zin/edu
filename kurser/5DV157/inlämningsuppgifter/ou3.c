@@ -1,23 +1,10 @@
 /*
- * Programmeringsteknik med C och Matlab
- * Fall 22
- * Assignment 3
-
- * File:         ou3.c
- * Description:  A simple implementation of Conway's Game of Life. Lets the user
- *               choose initial configuration. Then let them step or exit.
- *               Prints the game field in each step.
- * Author:
- * CS username:
- * Date:
- * Version:
- * Limitations:  No validation of input.
- */
-
+*/
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 #include <time.h>
+#include <stdbool.h>
 
 /* Constants, representation of states */
 #define ALIVE 'X'
@@ -25,14 +12,24 @@
 
 #define BUFLEN 1024
 
-#define ROWS 10
-#define COLS 10
+#define ROWS 40
+#define COLS 40
+
+#define loopthrough(rows,both) for(int r = 0; r < ROWS; r++){for (int c = 0; c < COLS; c++){both}rows}
 
 /* Declaration of data structure */
 typedef struct cell {
 	char current;
 	char next;
 } cell;
+
+int min(int a, int b) {
+    return (a < b) ? a : b;
+}
+
+int max(int a, int b) {
+    return (a > b) ? a : b;
+}
 
 /* Function:    get_start_state
  * Description: Lets the user choose starting state
@@ -184,48 +181,50 @@ void init_world(const int rows, const int cols, cell world[rows][cols])
 	}
 }
 
-void get_next_state(int x, int y, int rows, int cols, cell world[rows][cols]) {
-   int neighbours = 0;
-   if (world[x][y].current == ALIVE) {
-        if(world[x-1][y-1].current == ALIVE) {
-            neighbours++;
-        }
-        if(world[x-1][y].current == ALIVE) {
-            neighbours++;
-        }
-         if(world[x-1][y+1].current == ALIVE) {
-            neighbours++;
-        }
-         if(world[x][y-1].current == ALIVE) {
-            neighbours++;
-        }
-         if(world[x][y+1].current == ALIVE) {
-            neighbours++;
-        }
-         if(world[x+1][y-1].current == ALIVE) {
-            neighbours++;
-        }
-         if(world[x+1][y].current == ALIVE) {
-            neighbours++;
-        }
-         if(world[x+1][y+1].current == ALIVE) {
-            neighbours++;
-        }
-        printf("cell %d,%d has %d neighbours.\n",x,y,neighbours);
-        if (neighbours >)
-   }
+int get_neighbours(int row, int col, int rows, int cols, cell world[rows][cols]) {
+	int neighbours = 0;
+	for (int r = max(0,row-1); r <= min(rows-1,row+1) ; r++) {
+		for (int c = max(0,col-1); c <= min(cols-1,col+1); c++) {
+			if (world[r][c].current == ALIVE && !(r == row && c == col)) {
+				neighbours++;
+			}
+		}
+	}
+	return neighbours;
 }
+
+void set_next_state(int row, int col, int rows, int cols, cell world[rows][cols]) {
+	char *next = &world[row][col].next;
+	bool is_alive = world[row][col].current == ALIVE;
+	int n = get_neighbours(row,col,rows,cols,world);
+	if((!is_alive && n == 3) || (is_alive && (n == 2 || n == 3 ))) {
+		*next = ALIVE;
+	} else {
+		*next = DEAD;
+	}
+}
+
 void load_next_frame(const int rows, const int cols, cell world[rows][cols]) {
-    for (int i = 0; i < rows; i++) {
-        for (int j = 0; j < cols; j++) {
-            get_next_state(i,j,rows, cols, world);
-        }
-    }
-
+	loopthrough(,set_next_state(r,c,rows,cols,world);)
+	loopthrough(,world[r][c].current = world[r][c].next;)
 }
 
+void print_frame(int rows, int cols, cell world[rows][cols]) {
+	loopthrough(printf("\n");,printf("%c ", world[r][c].current);)
+	printf("\n");
+}
+
+char menu(void) {
+	char ch = 0;
+	printf("[1] Next step\n");
+	printf("[2] End\n");
+	printf("\nPress enter or 1 to proceed with the next step or press 2 to exit\n");
+	ch = getchar();
+	return ch;
 
 
+
+}
 
 /* Function:    main
  * Description: Start and run simulations, interact with the user.
@@ -238,19 +237,22 @@ void load_next_frame(const int rows, const int cols, cell world[rows][cols]) {
 int main(void) {   
     
     cell world[ROWS][COLS];
-    clear_world(ROWS,COLS,world);
+
+	clear_world(ROWS,COLS,world);
+
     init_world(ROWS,COLS,world);
+	
 
-
-    for (int i = 0; i < ROWS; i++) {
-        for (int j = 0; j < COLS; j++) {
-            printf("%c", world[i][j].current);
-        }
-        printf("\n");
-    }
-
-    load_next_frame(ROWS,COLS,world);
-
-
-	return 0;
+	while (true) {
+		char ch = 0;
+		ch = menu();
+		printf("test");
+		if (ch == 10 || ch == 49) {
+		
+		} else if (ch == 50) {
+			return 0;
+		} else {
+			printf("Enter a valid choice!\n");
+		}
+	}
 }
