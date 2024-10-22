@@ -176,14 +176,11 @@ int main(int argc, char * argv[]) {
 		MAX_NUM_OF_JUDGES = 10;
 	}
 
-	
-
 	// Check to avoid divide by zero error. If found, exit the program.
 	if (MIN_NUM_OF_JUDGES < 3) {
 		printf("Internt konfigurationsfel: MIN_NUM_OF_JUDGES < 3.\n");
 		return EXIT_FAILURE;
 	}
-
 
 	// Declare all main function variables
 	double scores[MAX_NUM_OF_JUDGES];
